@@ -75,12 +75,20 @@ class Resources {
 			});
 
 		// Only CSS
-		this.css = this.resources.
-			filter(function (item){
-				if (item.type === "text/css") {
-					return true;
-				}
-			});
+		// this.css = this.resources.
+		// 	filter(function (item){
+		// 		if (item.type === "text/css") {
+		// 			return true;
+		// 		}
+		// 	});
+		this.css = this.resources.filter(function (item) {
+			return item.type === "text/css";
+		}).sort(function (a, b) {
+			// 'pubtree_template.css' 이름을 가진 아이템을 우선하여 배열의 첫 번째 위치로 정렬합니다.
+			if (a.href === "nep_css/pubtree_template.css") return -1;
+			if (b.href === "nep_css/pubtree_template.css") return 1;
+			return 0;
+		});
 	}
 
 	/**

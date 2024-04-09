@@ -126,12 +126,23 @@ export function replaceLinks(contents, fn) {
 }
 
 export function substitute(content, urls, replacements) {
+	// urls.forEach(function(url, i){
+	// 	if (url && replacements[i]) {
+	// 		// Account for special characters in the file name.
+	// 		// See https://stackoverflow.com/a/6318729.
+	// 		url = url.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+	// 		content = content.replace(new RegExp(url, "g"), replacements[i]);
+	// 	}
+	// });
+	// return content;
+	content = content.replace(/&gt;/g, ">");
 	urls.forEach(function(url, i){
 		if (url && replacements[i]) {
-			// Account for special characters in the file name.
-			// See https://stackoverflow.com/a/6318729.
+			// URL 앞에 './'가 올 수 있는 경우를 고려하여 정규 표현식을 수정
+			// './'는 선택적(optional)이며, 특수 문자가 포함된 파일 이름도 처리
 			url = url.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-			content = content.replace(new RegExp(url, "g"), replacements[i]);
+			const pattern1 = "(\\.\\/)?" + url; 
+			content = content.replace(new RegExp(pattern1, "g"), replacements[i]);
 		}
 	});
 	return content;
